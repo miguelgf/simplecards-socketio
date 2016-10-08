@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+
+	</head>
+	<body>
+		<div>
+			Player count: <span id="playerCount">0</span>
+		</div>
+
+		Hola k ase
+
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js"></script>
+		<script src="app/main.js"> </script>
+
+		<script>
+		var socket = io('http://localhost:4003');
+
+		socket.on("playerCount", function (data) {
+			console.log(data);
+
+			$('#playerCount').html(data.players);
+		});
+
+		// .... socket.on(...)
+
+		socket.emit('ready', 'ready');
+
+		</script>
+	</body>
+</html>

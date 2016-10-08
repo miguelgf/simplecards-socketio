@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/infinit89/card-testing/issues"
   },
-  "homepage": "https://github.com/infinit89/card-testing#readme"
+  "homepage": "https://github.com/infinit89/card-testing#readme",
+  "dependencies": {
+    "cluster": "^0.7.7",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "nodemon": "^1.11.0",
+    "socket.io": "^1.5.0"
+  }
 }
