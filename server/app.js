@@ -8,40 +8,29 @@ var app = express();
 var server = http.createServer(app);
 var io = socketio(server);
 
-
 const numCards = 10;
-
 game = new Game(numCards);
 
 io.on('connection', function(socket) {
 
 	console.log('onConnection ---');
 
-	socket.on('ready', function(data) {
+	socket.on('join', function(data) {
 		console.log(data.username);
-		game.addPlayer(data.username);
+		game.addPlayer(data.username, socket);
 
 		if (game.getNumPlayers() == 2) {
-			console.log("ready to play");
-			game.startGame();
-
-			socket.emit('startGame', {'players': game.getNumPlayers()});
+			game.startGame();	
 		}
 
-		socket.emit('playerCount', {'players': game.getNumPlayers()});
-	})
-
-	socket.on('hola', function(data){
-		console.log('hola');
+		game.emitPlayers('playerCount', {'players': game.getNumPlayers()});
 	})
 
 	socket.on('disconnect', function(){
 		console.log('disconnect');
-
 	});
 
 });
-
 
 
 app.get('/', function(req, res) {
