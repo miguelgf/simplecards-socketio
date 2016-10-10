@@ -13,7 +13,7 @@ game = new Game(numCards);
 
 io.on('connection', function(socket) {
 
-	console.log('onConnection ---');
+	console.log('new connection ', socket.id);
 
 	socket.on('join', function(data) {
 		console.log(data.username);

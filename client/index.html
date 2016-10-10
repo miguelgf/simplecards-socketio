@@ -38,7 +38,7 @@
 			socket.on("dealt", function (data) {
 				console.log(data);
 
-				$('#mycards').html(data.cards.map(function(c) { return '<div style="float: left; border: 1px solid black; padding: 2px; margin: 2px;">' + c + '</div>'; }));
+				$('#mycards').html(data.cards.map(function(c) { return '<div style="float: left; border: 1px solid black; padding: 2px; margin: 2px;">' + c.value + '</div>'; }));
 			});
 
 			socket.on("startGame", function (data) {

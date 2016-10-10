@@ -16,9 +16,14 @@ var Player = function(playerName, socket) {
 	}
 
 	this.printPretty = function() {
+		var cardsMsg = 'Cards: ';
+		for(i=0; i<this.cards.length; i++){
+			cardsMsg += this.cards[i].getValue() + ', ';
+		}
+	
 		console.log('----------------- PLAYER');
 		console.log('Username:', this.username);
-		console.log('Cards: ', this.cards);
+		console.log(cardsMsg);
 		console.log('SocketID: ', this.socket.id);
 		console.log('----------------- PLAYER');
 	}
