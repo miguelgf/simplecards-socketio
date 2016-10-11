@@ -9,7 +9,11 @@ var app = express();
 var server = http.createServer(app);
 var io = socketio(server);
 
-// Case 1: Construct clean
+/*
+TODO (before public):
+- Object Card more complex
+- Don't allow to select a card and then change it
+*/
 var rooms = [];
 
 io.on('connection', function(socket) {
@@ -42,7 +46,6 @@ io.on('connection', function(socket) {
 		console.log(payload);
 		var game = rooms[payload.gameInfo.roomIndex];
 		var player = game.findPlayer(socket.id);
-		console.log("Player " + player.username + " has selected: " + payload.cardValue);
 
 		player.currentCard = new Card(payload.cardValue); // TODO: Improve lookup Card
 		game.currentlyPlayed++;
