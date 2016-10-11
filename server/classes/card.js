@@ -5,9 +5,27 @@ var Card = function(value) {
 	var __construct = function(){
 		// ...
 	}(this);
-
 	
-	this.isGreater = function(card){		
+	this.compare = function(card) {
+		console.log("Comparing this.value = ");
+		console.log(this.value);
+		console.log(" against ");
+		console.log(card.getValue());
+
+		if (this.value < card.getValue()) {
+			return -1;
+		}
+
+		if (this.value == card.getValue()) {
+			return 0;
+		}
+
+		if (this.value > card.getValue()) {
+			return 1;
+		}
+	}
+
+	this.isGreater = function(card) {
 		return this.value > card.getValue() ?  true :  false;
 	};
 

@@ -1,11 +1,35 @@
 <!doctype html>
 <html>
 	<head>
+		<style>
+			.card {
+				float: left;
+				border: 1px solid black;
+				padding: 2px; 
+				margin: 2px;
+				cursor: pointer;
+			}
 
+			.selected { 
+				background: grey;
+				border: 2px solid red;
+			}
+		</style>
 	</head>
 	<body>
 		<div>
-			Player count: <span id="playerCount">0</span>
+			<div id="header">
+				<div id="divPlayersCount">
+					Player count: <span id="playerCount">0</span>
+				</div>
+				<div id="divStart">
+					Comenzar a jugar:
+
+					<input type="text" id="username" /> 
+					<input type="button" onclick="startGame()" value="GOOOO!">				
+				</div>
+			</div>
+			
 			Players name: 
 			<div id="playersNames">
 				
@@ -16,15 +40,9 @@
 			</div>			
 		</div>
 
-		Comenzar a jugar:
-
-		<input type="text" id="username" /> 
-		<input type="button" onclick="startGame()" value="GOOOO!">
-
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js"></script>
-		<script src="app/main.js"> </script>
-
+		
 		<script>
 			var socket = io('http://localhost:4002');
 
@@ -36,9 +54,9 @@
 
 
 			socket.on("dealt", function (data) {
-				console.log(data);
-
-				$('#mycards').html(data.cards.map(function(c) { return '<div style="float: left; border: 1px solid black; padding: 2px; margin: 2px;">' + c.value + '</div>'; }));
+				$('#divStart').hide();
+				$('#mycards').html();
+				$('#mycards').html(data.cards.map(function(c, i) { return renderCard(c, i); }));
 			});
 
 			socket.on("startGame", function (data) {
@@ -58,5 +76,7 @@
 			}
 
 		</script>
+
+		<script src="app/main.js"> </script>
 	</body>
 </html>

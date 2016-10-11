@@ -3,6 +3,7 @@ var express = require('express');
 var http = require('http');
 var socketio = require('socket.io');
 var Game = require('./classes/game.js');
+var Card = require('./classes/card.js');
 
 var app = express();
 var server = http.createServer(app);
@@ -19,12 +20,27 @@ io.on('connection', function(socket) {
 		console.log(data.username);
 		game.addPlayer(data.username, socket);
 
+		game.emitPlayers('playerCount', {'players': game.getNumPlayers()});
+
 		if (game.getNumPlayers() == 2) {
 			game.startGame();	
 		}
 
-		game.emitPlayers('playerCount', {'players': game.getNumPlayers()});
 	})
+
+	socket.on('cardSelected', function(cardValue) {
+		var player = game.findPlayer(socket.id);
+
+		console.log("Player " + player.username + " has selected: " + cardValue);
+
+		player.currentCard = new Card(cardValue); // TODO: Improve lookup Card
+		game.currentlyPlayed++;
+
+		if (game.currentlyPlayed == game.getNumPlayers()) {
+			game.endTurn();
+		}
+
+	});
 
 	socket.on('disconnect', function(){
 		console.log('disconnect');

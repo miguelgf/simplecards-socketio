@@ -1,0 +1,13 @@
+
+
+Gameflow
+-----
+List of events:
+- connect: (Player -> game) User opens the game.
+- join: (Player -> game) User enters a name and press to play
+- playerCount: (Game -> player) Fired when a player joins.
+- startGame: (Game -> player) When there is enought players to play.
+- dealt: (Game -> player) The cards has been dealt and sent to the players.
+- cardSelected: (Player -> game) The user chooses a card.
+- turnResult: (Game -> player) Result of the match.
+- gameEnded: (Game -> player) Game end.

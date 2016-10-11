@@ -1,6 +1,5 @@
 var Card = require('./card');
 
-
 var Deck = function() {
 	this.cards = [];
 

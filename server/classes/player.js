@@ -2,13 +2,24 @@ var Player = function(playerName, socket) {
 	this.username = playerName;
 	this.cards = [];
 	this.socket = socket;
+	this.currentCard = null;
 
 	var __construct = function() {
 		// ...
 	}(this); // Called
 
-	this.addCard = function(c) {
-		this.cards.push(c);
+	this.addCard = function(card) {
+		this.cards.push(card);
+	}
+
+	// Receive Object card, not card value
+	this.removeCard = function (card) {
+		for (i = 0; i < this.cards.length; i++) {
+			if (this.cards[i].compare(card) == 0) {
+				this.cards.splice(i, 1);
+				break;
+			}
+		}
 	}
 
 	this.emit = function(eventName, payload) {
@@ -17,7 +28,7 @@ var Player = function(playerName, socket) {
 
 	this.printPretty = function() {
 		var cardsMsg = 'Cards: ';
-		for(i=0; i<this.cards.length; i++){
+		for (i = 0; i < this.cards.length; i++) {
 			cardsMsg += this.cards[i].getValue() + ', ';
 		}
 	
