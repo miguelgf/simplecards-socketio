@@ -8,6 +8,7 @@ var Game = function(numCards) {
 	this.status = 0;
 	this.cardsPerPlayer = numCards;
 	this.currentlyPlayed = 0;
+	this.gameWinner = null;
 
 	var __construct = function() {
 		// ...
@@ -83,6 +84,24 @@ var Game = function(numCards) {
 
 		// Emit turnResult all players
 		this.emitPlayers('turnResult', {winner: winner})
+	}
+
+	this.updateGame = function() {
+		// Check if the game has ended
+
+		if (this.players[0].getNumCards() == 0) {
+			this.status = 2;
+			this.gameWinner = this.players[1];
+		}
+
+		if (this.players[1].getNumCards() == 0) {
+			this.status = 2;
+			this.gameWinner = this.players[0];
+		}
+	}
+
+	this.hasGameEnded = function() {
+		return this.status == 2;
 	}
 
 	this.refreshCards = function() {

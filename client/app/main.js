@@ -4,9 +4,9 @@ function renderCard(card) {
 }
 
 function selectCard(cardValue) {
+	$('#divWinner').html();
 	$('.card').removeClass('selected');
-
 	$('#card' + cardValue).addClass('selected');
 
-	socket.emit('cardSelected', cardValue);
+	socket.emit('sendCard', cardValue);
 }

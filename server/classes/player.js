@@ -22,6 +22,10 @@ var Player = function(playerName, socket) {
 		}
 	}
 
+	this.getNumCards =function() {
+		return this.cards.length;
+	}
+
 	this.emit = function(eventName, payload) {
 		this.socket.emit(eventName, payload);
 	}

@@ -7,11 +7,6 @@ var Card = function(value) {
 	}(this);
 	
 	this.compare = function(card) {
-		console.log("Comparing this.value = ");
-		console.log(this.value);
-		console.log(" against ");
-		console.log(card.getValue());
-
 		if (this.value < card.getValue()) {
 			return -1;
 		}

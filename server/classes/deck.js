@@ -14,8 +14,6 @@ var Deck = function() {
 	this.subtractRandomCard = function() {
 		var index = Math.floor(Math.random() * this.cards.length);
 
-		//console.log("index", index);
-
 		value = this.cards[index];
 
 		this.cards.splice(index, 1);

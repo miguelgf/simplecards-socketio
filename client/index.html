@@ -2,6 +2,12 @@
 <html>
 	<head>
 		<style>
+			#divFinalWinner {
+				font-size: 5em;
+				text-align: center; 
+				color: blue;
+			}
+
 			.card {
 				float: left;
 				border: 1px solid black;
@@ -28,15 +34,25 @@
 					<input type="text" id="username" /> 
 					<input type="button" onclick="startGame()" value="GOOOO!">				
 				</div>
+				<div id="infoPlayers">
+					Players name: 
+					<div id="playersNames">
+
+					</div>
+				</div>
 			</div>
 			
-			Players name: 
-			<div id="playersNames">
-				
-			</div>
 			My cards: 
 			<div id="mycards">
 				
+			</div>
+
+			<div id="divWinner">
+
+			</div>
+
+			<div id="divFinalWinner">
+
 			</div>			
 		</div>
 
@@ -52,7 +68,6 @@
 				$('#playerCount').html(data.players);
 			});
 
-
 			socket.on("dealt", function (data) {
 				$('#divStart').hide();
 				$('#mycards').html();
@@ -64,6 +79,14 @@
 
 				$('#playersNames').html(data.players);
 			});
+
+			socket.on("turnResult", function (data) {
+				$('#divWinner').html('Last turn winner: ' + data.winner + "!!!");
+			});
+
+			socket.on("gameEnded", function (data) {
+				$('#divFinalWinner').html('Final winner: ' + data.winner + "!!!");
+			});			
 
 			// .... socket.on(...)
 
