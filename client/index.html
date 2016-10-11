@@ -2,6 +2,11 @@
 <html>
 	<head>
 		<style>
+			#header div {
+				/* float: left; */
+				margin-left: 10px;
+			}
+
 			#divFinalWinner {
 				font-size: 5em;
 				text-align: center; 
@@ -10,16 +15,24 @@
 
 			.card {
 				float: left;
-				border: 1px solid black;
-				padding: 2px; 
-				margin: 2px;
+				border: 5px solid black;
+				border-radius: 5px;
+				padding: 10px; 
+				margin: 8px;
 				cursor: pointer;
+				font-size: 5em;
 			}
 
 			.selected { 
 				background: grey;
 				border: 2px solid red;
 			}
+
+			#divStart { 
+				text-align: center;
+			}
+
+
 		</style>
 	</head>
 	<body>
@@ -27,12 +40,6 @@
 			<div id="header">
 				<div id="divPlayersCount">
 					Player count: <span id="playerCount">0</span>
-				</div>
-				<div id="divStart">
-					Comenzar a jugar:
-
-					<input type="text" id="username" /> 
-					<input type="button" onclick="startGame()" value="GOOOO!">				
 				</div>
 				<div id="infoPlayers">
 					Players name: 
@@ -48,18 +55,28 @@
 				</div>				
 			</div>
 			
-			My cards: 
-			<div id="mycards">
-				
-			</div>
+			<div id="gameBoard">
+				<div id="divStart">
+					Start to play: <br />
 
-			<div id="divWinner">
+					<input type="text" id="username" /> 
+					<input type="button" onclick="startGame()" value="GOOOO!">				
+				</div>
 
-			</div>
+				My cards: 
+				<div id="mycards">
+					
+				</div>
 
-			<div id="divFinalWinner">
+				<div id="divWinner">
 
+				</div>
+
+				<div id="divFinalWinner">
+
+				</div>						
 			</div>			
+				
 		</div>
 
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -69,23 +86,23 @@
 			var socket = io('http://localhost:4002');
 			var gameInfo = null;
 
-			socket.on("playerCount", function (data) {
-				console.log(data);
-
-				$('#playerCount').html(data.players);
-			});
-
 			socket.on("dealt", function (data) {
 				$('#divStart').hide();
 				$('#mycards').html();
 				$('#mycards').html(data.cards.map(function(c, i) { return renderCard(c, i); }));
 			});
 
+			socket.on("startGame", function (data) {
+				$('#playersNames').html(data.players.map(function(p) { 
+					return '<div class="player">' + p + '</div>'; 
+				}));
+			});
+
 			socket.on("gameInfo", function (info) {
 				console.log(info);
 				gameInfo = info;
-				
-				$('#playersNames').html(gameInfo.players);
+
+				$('#playerCount').html(gameInfo.players);
 				$('#roomIndex').html(gameInfo.roomIndex);
 			});
 
