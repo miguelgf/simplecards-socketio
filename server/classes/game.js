@@ -6,13 +6,18 @@ var Game = function(numCards) {
 	this.deck = new Deck();
 	this.players = [];
 	this.status = 0;
-	this.cardsPerPlayer = numCards;
+	this.cardsPerPlayer = numCards || 5;
 	this.currentlyPlayed = 0;
 	this.gameWinner = null;
 
-	var __construct = function() {
+	/*
+	var __construct = function(numCards) {
+		if (typeof numCards !== 'undefined') {
+			this.cardsPerPlayer = numCards;
+		}
+
 		// ...
-	}(this); // Called
+	}(this); // Called */
 
 	this.setCardsPerPlayer = function(numCards) {
 		this.cardsPerPlayer = numCards;
@@ -75,9 +80,9 @@ var Game = function(numCards) {
 
 		this.players[0].currentCard = null;
 		this.players[1].currentCard = null;
-		game.currentlyPlayed = 0;
+		this.currentlyPlayed = 0;
 
-		// game.printPretty();
+		// this.printPretty();
 
 		// Emit dealt to each player their cards
 		this.refreshCards();
@@ -102,6 +107,10 @@ var Game = function(numCards) {
 
 	this.hasGameEnded = function() {
 		return this.status == 2;
+	}
+
+	this.isWaiting = function() {
+		return this.status == 0;
 	}
 
 	this.refreshCards = function() {
@@ -134,6 +143,7 @@ var Game = function(numCards) {
 	this.printPretty = function() {
 		console.log('----------------- GAME');
 		console.log('Status', this.status);
+		console.log('Cards per Player', this.cardsPerPlayer);
 		console.log('Players:');
 		this.players[0].printPretty();
 		this.players[1].printPretty();

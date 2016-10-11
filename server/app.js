@@ -9,20 +9,28 @@ var app = express();
 var server = http.createServer(app);
 var io = socketio(server);
 
-const numCards = 3;
-game = new Game(numCards);
+// Case 1: Construct clean
+var rooms = [];
 
 io.on('connection', function(socket) {
 
 	console.log('new connection ', socket.id);
 
 	socket.on('join', function(data) {
-		console.log(data.username);
+		var game;
+
+		if (rooms.length == 0 || !rooms[rooms.length - 1].isWaiting()) {
+			game = new Game();
+			rooms.push(game);
+		} else {
+			game = rooms[rooms.length - 1];
+		}
+
 		game.addPlayer(data.username, socket);
 
 		// game.updateGame();
 
-		game.emitPlayers('playerCount', {'players': game.getNumPlayers()});
+		game.emitPlayers('gameInfo', {'roomIndex': rooms.length - 1, 'players': game.getNumPlayers()});
 
 		if (game.getNumPlayers() == 2) {
 			game.startGame();	
@@ -30,12 +38,13 @@ io.on('connection', function(socket) {
 
 	})
 
-	socket.on('sendCard', function(cardValue) {
+	socket.on('sendCard', function(payload) {
+		console.log(payload);
+		var game = rooms[payload.gameInfo.roomIndex];
 		var player = game.findPlayer(socket.id);
+		console.log("Player " + player.username + " has selected: " + payload.cardValue);
 
-		console.log("Player " + player.username + " has selected: " + cardValue);
-
-		player.currentCard = new Card(cardValue); // TODO: Improve lookup Card
+		player.currentCard = new Card(payload.cardValue); // TODO: Improve lookup Card
 		game.currentlyPlayed++;
 
 		if (game.currentlyPlayed == game.getNumPlayers()) {
@@ -64,5 +73,32 @@ app.get('/', function(req, res) {
 	res.send('Endpoint express working.');
 });
 
+
+app.get('/getrooms', function(req, res) {
+	var content = '';
+	content += '<h1>Latest Rooms</h1>';
+	content += '<ul>';
+
+	for (var i = rooms.length - 1; i >= 0; i--) {
+		content += '<li>Num. players: ' + rooms[i].getNumPlayers() + '; Status: ' + rooms[i].status + '</li>';
+	}
+	content += '</ul>';
+
+	res.send(content);
+});
+
+app.get('/getrooms/:id', function(req, res) {
+	console.log(req.params.id);
+
+	if (typeof rooms[req.params.id] != 'undefined') {
+		var game = rooms[req.params.id];
+
+		res.send('Num. players: ' + game.getNumPlayers() + '; Status: ' + game.status)
+	} else {
+		res.send('The game doesn\'t exists');
+	}
+
+
+});
 
 server.listen(4002);

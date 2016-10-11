@@ -40,6 +40,12 @@
 
 					</div>
 				</div>
+				<div id="infoRoom">
+					Room #: 
+					<div id="roomIndex">
+
+					</div>
+				</div>				
 			</div>
 			
 			My cards: 
@@ -61,6 +67,7 @@
 		
 		<script>
 			var socket = io('http://localhost:4002');
+			var gameInfo = null;
 
 			socket.on("playerCount", function (data) {
 				console.log(data);
@@ -74,10 +81,12 @@
 				$('#mycards').html(data.cards.map(function(c, i) { return renderCard(c, i); }));
 			});
 
-			socket.on("startGame", function (data) {
-				console.log(data);
-
-				$('#playersNames').html(data.players);
+			socket.on("gameInfo", function (info) {
+				console.log(info);
+				gameInfo = info;
+				
+				$('#playersNames').html(gameInfo.players);
+				$('#roomIndex').html(gameInfo.roomIndex);
 			});
 
 			socket.on("turnResult", function (data) {

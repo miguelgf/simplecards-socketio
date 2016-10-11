@@ -8,5 +8,5 @@ function selectCard(cardValue) {
 	$('.card').removeClass('selected');
 	$('#card' + cardValue).addClass('selected');
 
-	socket.emit('sendCard', cardValue);
+	socket.emit('sendCard', {'gameInfo': gameInfo, 'cardValue': cardValue});
 }
