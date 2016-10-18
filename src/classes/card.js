@@ -18,7 +18,7 @@ var Card = function(value) {
 		if (this.value > card.getValue()) {
 			return 1;
 		}
-	}
+	};
 
 	this.isGreater = function(card) {
 		return this.value > card.getValue() ?  true :  false;
@@ -30,9 +30,9 @@ var Card = function(value) {
 
 	this.prettyPrint = function(){
 		console.log(this.getValue());
-	}
+	};
 
-}
+};
 
 
 module.exports = Card;

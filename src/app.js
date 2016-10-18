@@ -9,6 +9,11 @@ var app = express();
 var server = http.createServer(app);
 var io = socketio(server);
 
+var PORT = 4002;
+
+app.use('/', express.static(__dirname + '/client'));
+
+
 /*
 TODO (before public):
 - Object Card more complex
@@ -23,7 +28,7 @@ io.on('connection', function(socket) {
 	socket.on('join', function(data) {
 		var game;
 
-		if (rooms.length == 0 || !rooms[rooms.length - 1].isWaiting()) {
+		if (rooms.length === 0 || !rooms[rooms.length - 1].isWaiting()) {
 			game = new Game();
 			rooms.push(game);
 		} else {
@@ -40,7 +45,7 @@ io.on('connection', function(socket) {
 			game.startGame();	
 		}
 
-	})
+	});
 
 	socket.on('sendCard', function(payload) {
 		console.log(payload);
@@ -72,12 +77,8 @@ io.on('connection', function(socket) {
 });
 
 
-app.get('/', function(req, res) {
-	res.send('Endpoint express working.');
-});
 
-
-app.get('/getrooms', function(req, res) {
+app.get('/rooms', function(req, res) {
 	var content = '';
 	content += '<h1>Latest Rooms</h1>';
 	content += '<ul>';
@@ -90,18 +91,16 @@ app.get('/getrooms', function(req, res) {
 	res.send(content);
 });
 
-app.get('/getrooms/:id', function(req, res) {
-	console.log(req.params.id);
 
+app.get('/rooms/:id', function(req, res) {
 	if (typeof rooms[req.params.id] != 'undefined') {
 		var game = rooms[req.params.id];
 
-		res.send('Num. players: ' + game.getNumPlayers() + '; Status: ' + game.status)
+		res.send('Num. players: ' + game.getNumPlayers() + '; Status: ' + game.status);
 	} else {
 		res.send('The game doesn\'t exists');
 	}
 
-
 });
 
-server.listen(4002);
+server.listen(PORT);

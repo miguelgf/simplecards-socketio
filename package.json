@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/infinit89/card-testing.git"
   },
+  "scripts": {
+    "start": "node ./dist/app.js",
+    "gulp": "./node_modules/.bin/gulp"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -19,8 +23,15 @@
   "dependencies": {
     "cluster": "^0.7.7",
     "express": "^4.14.0",
-    "gulp": "^3.9.1",
     "nodemon": "^1.11.0",
-    "socket.io": "^1.5.0"
+    "socket.io": "^1.5.0",
+    "jshint": "^2.9.3"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-uglify": "^2.0.0"
   }
 }

@@ -19,8 +19,8 @@ var Deck = function() {
 		this.cards.splice(index, 1);
 
 		return value;
-	}
+	};
 
-}
+};
 
 module.exports = Deck;

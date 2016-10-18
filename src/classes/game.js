@@ -21,15 +21,15 @@ var Game = function(numCards) {
 
 	this.setCardsPerPlayer = function(numCards) {
 		this.cardsPerPlayer = numCards;
-	}
+	};
 
 	this.addPlayer = function(playerName, socket) {
 		this.players.push(new Player(playerName, socket));
-	}
+	};
 
 	this.getNumPlayers = function() {
 		return this.players.length;
-	}
+	};
 
 	this.startGame = function() {
 		this.status = 1;
@@ -37,7 +37,7 @@ var Game = function(numCards) {
 		this.dealCards();
 		this.emitPlayers('startGame', {'players': this.players.map(function(p) { return p.username; })});
 		this.printPretty();
-	}
+	};
 
 	this.dealCards = function() {
 		// Deal the cards
@@ -48,7 +48,7 @@ var Game = function(numCards) {
 		}
 
 		this.refreshCards();
-	}
+	};
 
 	this.endTurn = function() {
 		var result = this.players[0].currentCard.compare(this.players[1].currentCard);
@@ -88,30 +88,30 @@ var Game = function(numCards) {
 		this.refreshCards();
 
 		// Emit turnResult all players
-		this.emitPlayers('turnResult', {winner: winner})
-	}
+		this.emitPlayers('turnResult', {winner: winner});
+	};
 
 	this.updateGame = function() {
 		// Check if the game has ended
 
-		if (this.players[0].getNumCards() == 0) {
+		if (this.players[0].getNumCards() === 0) {
 			this.status = 2;
 			this.gameWinner = this.players[1];
 		}
 
-		if (this.players[1].getNumCards() == 0) {
+		if (this.players[1].getNumCards() === 0) {
 			this.status = 2;
 			this.gameWinner = this.players[0];
 		}
-	}
+	};
 
 	this.hasGameEnded = function() {
 		return this.status == 2;
-	}
+	};
 
 	this.isWaiting = function() {
-		return this.status == 0;
-	}
+		return this.status === 0;
+	};
 
 	this.refreshCards = function() {
 		for (var pn = 0; pn < this.getNumPlayers(); pn++) {
@@ -121,7 +121,7 @@ var Game = function(numCards) {
 
 			this.players[pn].emit("dealt", {cards: this.players[pn].cards});
 		}
-	}
+	};
 
 	this.emitPlayers = function(eventName, payload) {
 		// console.log("Emit:", eventName, payload);
@@ -130,7 +130,7 @@ var Game = function(numCards) {
 			// console.log("Emit p" + pn + " (Socket: " + this.players[pn].socket.id + "):", eventName, payload);
 			this.players[pn].emit(eventName, payload);
 		}
-	}
+	};
 
 	this.findPlayer = function(socketId) {
 		for (var pn = 0; pn < this.getNumPlayers(); pn++) {
@@ -138,7 +138,7 @@ var Game = function(numCards) {
 				return this.players[pn];
 			}
 		}
-	}
+	};
 
 	this.printPretty = function() {
 		console.log('----------------- GAME');
@@ -148,8 +148,8 @@ var Game = function(numCards) {
 		this.players[0].printPretty();
 		this.players[1].printPretty();
 		console.log('----------------- GAME');
-	}
+	};
 
-}
+};
 
 module.exports = Game;
